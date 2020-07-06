@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -59,7 +60,7 @@ func getResponseMT(user string, password string, url string, reqMT *MTRequest) i
 	// build a new request, but not doing the POST yet
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(body)))
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	// you can then set the Header here
 	// I think the content-type should be "application/xml" like json...
@@ -68,7 +69,7 @@ func getResponseMT(user string, password string, url string, reqMT *MTRequest) i
 	// now POST it
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	fmt.Println(resp)
 	defer resp.Body.Close()
