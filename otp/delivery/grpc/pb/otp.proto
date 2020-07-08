@@ -1,0 +1,16 @@
+syntax = "proto3";
+package otpsms;
+option go_package = "netacom.vn/netachat/otp/delivery/grpc/pd/otp";
+
+service OTPService {
+    rpc GetOTPSMS(OTPMTRequest) returns (OTPMTResponse) {}
+}
+
+message OTPMTRequest {
+  string Phone = 1;
+  string Text = 2;
+}
+
+message OTPMTResponse{
+    string Status = 1;
+}

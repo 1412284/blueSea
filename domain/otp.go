@@ -41,3 +41,8 @@ type OTPUseCase interface {
 	GenerateSOAPRequestMTOTP(config *ConfigMTSendOTP, req *SendMessageRequest) (*http.Request, error)
 	SoapCallMTOTP(req *http.Request) (*Response, error)
 }
+
+type OTPRepository interface {
+	GenerateSOAPRequestMTOTP(config *ConfigMTSendOTP, req *SendMessageRequest) (*http.Request, error)
+	SoapCallMTOTP(req *http.Request) (*Response, error)
+}

@@ -35,7 +35,11 @@ var getTemplate = `
 </soapenv:Envelope>"
 `
 
-func GenerateSOAPRequestMTOTP(config *domain.ConfigMTSendOTP, req *domain.SendMessageRequest) (*http.Request, error) {
+type otpUsecase struct {
+	optRepo domain.OTPRepository
+}
+
+func (otp *otpUsecase) GenerateSOAPRequestMTOTP(config *domain.ConfigMTSendOTP, req *domain.SendMessageRequest) (*http.Request, error) {
 	// Using the var getTemplate to construct request
 	template, err := template.New("InputRequest").Parse(getTemplate)
 	if err != nil {
@@ -71,7 +75,7 @@ func GenerateSOAPRequestMTOTP(config *domain.ConfigMTSendOTP, req *domain.SendMe
 	return r, nil
 }
 
-func SoapCallMTOTP(req *http.Request) (*domain.Response, error) {
+func (otp *otpUsecase) SoapCallMTOTP(req *http.Request) (*domain.Response, error) {
 	// Save a copy of this request for debugging.
 	requestDump, err := httputil.DumpRequest(req, true)
 	if err != nil {
