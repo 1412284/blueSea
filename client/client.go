@@ -15,11 +15,11 @@ func main() {
 	}
 	defer cc.Close()
 	client := otp.NewOTPServiceClient(cc)
-	callOTP(client)
+	callOTPSMS(client)
 	// log.Printf("service client %f", client)
 }
 
-func callOTP(o otp.OTPServiceClient) {
+func callOTPSMS(o otp.OTPServiceClient) {
 	log.Println("calling otp api")
 	resp, err := o.GetOTPSMS(context.Background(), &otp.OTPMTRequest{
 		Phone: "84974858367",

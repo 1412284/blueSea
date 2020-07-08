@@ -11,24 +11,17 @@ import (
 	otp "netacom.vn/netachat/otp/delivery/grpc/pb"
 )
 
-// type server struct{}
-
-// func (*server) GetOTPSMS(ctx context.Context, req *otp.OTPMTRequest) (*otp.OTPMTResponse, error) {
-// 	log.Println("GetOTPSMS called...")
-// 	res, err := otpHandler.OTPService.GetOTPSMS(ctx, req)
-// 	return res, err
-// }
-
 func main() {
+	log.Printf("Server started")
 	lis, err := net.Listen("tcp", "0.0.0.0:5069")
 	if err != nil {
 		log.Fatalf("err while create listen %v", err)
 	}
-	s := grpc.NewServer()
+	serverGrpc := grpc.NewServer()
 	server := otpHandler.OTPServer{}
-	otp.RegisterOTPServiceServer(s, &server)
-	fmt.Println("otp is running...")
-	err = s.Serve(lis)
+	otp.RegisterOTPServiceServer(serverGrpc, &server)
+	fmt.Printf("otp is running... %+v", &server)
+	err = serverGrpc.Serve(lis)
 
 	if err != nil {
 		log.Fatalf("err while serve %v", err)

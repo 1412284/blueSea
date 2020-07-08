@@ -39,7 +39,7 @@ type otpUsecase struct {
 	optRepo domain.OTPRepository
 }
 
-func (otp *otpUsecase) GenerateSOAPRequestMTOTP(config *domain.ConfigMTSendOTP, req *domain.SendMessageRequest) (*http.Request, error) {
+func GenerateSOAPRequestMTOTP(config *domain.ConfigMTSendOTP, req *domain.SendMessageRequest) (*http.Request, error) {
 	// Using the var getTemplate to construct request
 	template, err := template.New("InputRequest").Parse(getTemplate)
 	if err != nil {
@@ -75,7 +75,7 @@ func (otp *otpUsecase) GenerateSOAPRequestMTOTP(config *domain.ConfigMTSendOTP, 
 	return r, nil
 }
 
-func (otp *otpUsecase) SoapCallMTOTP(req *http.Request) (*domain.Response, error) {
+func SoapCallMTOTP(req *http.Request) (*domain.Response, error) {
 	// Save a copy of this request for debugging.
 	requestDump, err := httputil.DumpRequest(req, true)
 	if err != nil {

@@ -7,6 +7,7 @@ import (
 
 	"netacom.vn/netachat/domain"
 	otp "netacom.vn/netachat/otp/delivery/grpc/pb"
+	"netacom.vn/netachat/otp/usecase"
 )
 
 type OTPServer struct {
@@ -28,21 +29,19 @@ func (otps *OTPServer) GetOTPSMS(ctx context.Context, req *otp.OTPMTRequest) (*o
 		Text:  base64.StdEncoding.EncodeToString([]byte(req.Text)),
 	}
 
-	httpReq, err := otps.OTPUsecase.GenerateSOAPRequestMTOTP(&config, &user)
+	httpReq, err := usecase.GenerateSOAPRequestMTOTP(&config, &user)
 	if err != nil {
 		fmt.Println("Some problem occurred in request generation")
 	}
 
-	defer httpReq.Body.Close()
-
-	response, err := otps.OTPUsecase.SoapCallMTOTP(httpReq)
+	response, err := usecase.SoapCallMTOTP(httpReq)
 	if err != nil {
 		fmt.Println("Problem occurred in making a SOAP call")
 	}
-	fmt.Printf("SOAP response: %v\n", response)
+	result := fmt.Sprintf("SOAP response: %v\n", response)
 	if err == nil {
 		return &otp.OTPMTResponse{
-				Status: "Success",
+				Status: result,
 			},
 			nil
 	} else {
